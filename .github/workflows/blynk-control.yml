@@ -1,0 +1,14 @@
+name: Blynk Control
+
+on:
+  repository_dispatch:
+    types: [trigger-blynk-action]
+
+jobs:
+  send-api-request:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send HTTP request to Blynk API
+      run: |
+        curl -X GET \
+          'https://sgp1.blynk.cloud/external/api/update?token=_mJgeC6_YxnwyQ01qhqSXoAWu6P9ryIQ&v1=90'
