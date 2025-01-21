@@ -1,13 +1,26 @@
-name: Blynk Control
+name: Blynk Control Action
 
 on:
   repository_dispatch:
-    types: [trigger-blynk-action]
+    types: [trigger-blynk-action]  # Kích hoạt khi IFTTT gửi sự kiện
 
 jobs:
-  send-api-request:
-    runs-on: ubuntu-latest
+  create-gist-and-send-request:
+    runs-on: ubuntu-latest  # Chạy trên môi trường Ubuntu
+    
     steps:
+    # Bước 1: Tạo Gist với nội dung kích hoạt Blynk API
+    - name: Create a Gist to trigger Blynk
+      uses: actions/create-gist@v1
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}  # Sử dụng GitHub token
+        description: "Trigger Blynk API Action"
+        public: true
+        files: |
+          blynk_request.txt: |
+            Trigger Blynk API via GitHub Action.
+
+    # Bước 2: Gửi HTTP request tới Blynk API
     - name: Send HTTP request to Blynk API
       run: |
         curl -X GET \
